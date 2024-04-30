@@ -79,4 +79,14 @@ dependencies {
 
     // Image loader dependencies
     implementation("io.coil-kt:coil-compose:2.3.0")
+
+
+    // Voyager Navigation dependencies
+    val voyagerVersion = "1.0.0"
+
+    implementation("cafe.adriel.voyager:voyager-navigator:$voyagerVersion")
+    implementation("cafe.adriel.voyager:voyager-screenmodel:$voyagerVersion")
+    implementation("cafe.adriel.voyager:voyager-bottom-sheet-navigator:$voyagerVersion")
+    implementation("cafe.adriel.voyager:voyager-tab-navigator:$voyagerVersion")
+    implementation("cafe.adriel.voyager:voyager-transitions:$voyagerVersion")
 }

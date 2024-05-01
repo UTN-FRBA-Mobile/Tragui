@@ -485,11 +485,10 @@
       android:fillColor="#422632"/>
   <path
       android:pathData="M16,23h1v1h-1z"
-=======
-    android:width="100dp"
-    android:height="100dp"
-    android:viewportWidth="100"
-    android:viewportHeight="100">
+      android:width="100dp"
+      android:height="100dp"
+      android:viewportWidth="100"
+      android:viewportHeight="100"/>
   <path
       android:pathData="M41,6h1v1h-1z"
       android:fillColor="#0F0000"/>

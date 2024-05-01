@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-    id("com.android.application")
     id("com.google.gms.google-services")
 }
 
@@ -85,6 +84,7 @@ dependencies {
 
     // Image loader dependencies
     implementation("io.coil-kt:coil-compose:2.3.0")
+    implementation("com.github.GIGAMOLE:ComposeShadowsPlus:1.0.4")
 
 
     // Voyager Navigation dependencies

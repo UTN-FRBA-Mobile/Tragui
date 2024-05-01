@@ -20,7 +20,6 @@ object HomeTab: Tab {
         get() {
             val title = stringResource(R.string.app_name)
             val icon = painterResource(id = R.drawable.vino)
-//            val icon = rememberVectorPainter(Icons.Default.Home)
 
             return remember {
                 TabOptions(

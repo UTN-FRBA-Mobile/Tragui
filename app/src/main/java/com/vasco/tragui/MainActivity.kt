@@ -43,7 +43,6 @@ class MainActivity : ComponentActivity() {
                                     tonalElevation = 0.dp,
                                     containerColor = colorResource(R.color.purple_200),
                                     modifier = Modifier
-                                        .background(color = MaterialTheme.colorScheme.error)
                                         .shadow(elevation = 10.dp)
                                 ) {
                                     TabNavigationItem(tab = HomeTab)

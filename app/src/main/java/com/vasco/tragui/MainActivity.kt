@@ -23,19 +23,26 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
+import com.gigamole.composeshadowsplus.common.ShadowsPlusType
+import com.gigamole.composeshadowsplus.common.shadowsPlus
 import com.vasco.tragui.ui.tabs.DrinkCabinetTab
 import com.vasco.tragui.ui.tabs.HomeTab
 import com.vasco.tragui.ui.tabs.SearchTab
 import com.vasco.tragui.ui.theme.TraguiTheme
+import java.util.logging.Logger
 
 class MainActivity : ComponentActivity() {
+    val logger = Logger.getLogger("VascoLogger")
+
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
+        logger.info("This is an info")
         super.onCreate(savedInstanceState)
         setContent {
             TraguiTheme {
@@ -63,7 +70,12 @@ class MainActivity : ComponentActivity() {
                                                 strokeWidth = strokeWidth
                                             )
                                         }
-                                        .shadow(100.dp)
+                                        .shadowsPlus(
+                                            type = ShadowsPlusType.SoftLayer,
+                                            color = colorResource(id = R.color.black).copy(alpha = 0.25f),
+                                            offset = DpOffset(5.dp, (-10).dp),
+                                            radius = 10.dp
+                                        )
                                 ) {
                                     TabNavigationItem(tab = HomeTab)
                                     TabNavigationItem(tab = SearchTab)

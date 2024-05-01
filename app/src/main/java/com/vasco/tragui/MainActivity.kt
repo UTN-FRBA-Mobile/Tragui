@@ -42,7 +42,7 @@ class MainActivity : ComponentActivity() {
 
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
-        logger.info("This is an info")
+        logger.info("Main activity started")
         super.onCreate(savedInstanceState)
         setContent {
             TraguiTheme {

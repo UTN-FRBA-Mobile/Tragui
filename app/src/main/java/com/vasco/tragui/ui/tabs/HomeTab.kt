@@ -9,6 +9,7 @@ import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.vasco.tragui.R
 import com.vasco.tragui.ui.screens.CocktailListScreen
+import com.vasco.tragui.ui.screens.HomeFirstTimeScreen
 
 object HomeTab: Tab {
     private fun readResolve(): Any = HomeTab
@@ -31,7 +32,7 @@ object HomeTab: Tab {
     @Composable
     override fun Content() {
         Navigator(
-            CocktailListScreen()
+            HomeFirstTimeScreen()
         )
     }
 }

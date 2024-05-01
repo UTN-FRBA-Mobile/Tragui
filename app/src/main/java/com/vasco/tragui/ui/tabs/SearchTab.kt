@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.navigator.tab.Tab
@@ -21,7 +22,7 @@ object SearchTab: Tab {
         @Composable
         get() {
             val title = stringResource(R.string.app_name)
-            val icon = rememberVectorPainter(Icons.Default.Search)
+            val icon = painterResource(id = R.drawable.search_menu)
 
             return remember {
                 TabOptions(

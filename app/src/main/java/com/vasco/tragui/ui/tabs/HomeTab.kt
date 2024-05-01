@@ -19,7 +19,7 @@ object HomeTab: Tab {
         @Composable
         get() {
             val title = stringResource(R.string.app_name)
-            val icon = painterResource(id = R.drawable.vino)
+            val icon = painterResource(id = R.drawable.cocktail_menu)
 //            val icon = rememberVectorPainter(Icons.Default.Home)
 
             return remember {

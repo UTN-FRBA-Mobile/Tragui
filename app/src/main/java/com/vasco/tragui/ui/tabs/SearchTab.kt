@@ -22,7 +22,7 @@ object SearchTab: Tab {
         @Composable
         get() {
             val title = stringResource(R.string.app_name)
-            val icon = painterResource(id = R.drawable.search_menu)
+            val icon = painterResource(id = R.drawable.lupachica)
 
             return remember {
                 TabOptions(

@@ -1,5 +1,10 @@
 package com.vasco.tragui.ui.screens
 
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -23,21 +28,34 @@ import cafe.adriel.voyager.core.screen.Screen
 import com.vasco.tragui.R
 import com.vasco.tragui.ui.theme.pixelfyFontFamily
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.TabNavigator
 import com.gigamole.composeshadowsplus.common.ShadowsPlusType
 import com.gigamole.composeshadowsplus.common.shadowsPlus
+import com.vasco.tragui.ui.animations.Animations.animationButom
 import com.vasco.tragui.ui.tabs.DrinkCabinetTab
 
+
 class HomeFirstTimeScreen: Screen {
+
     @Composable
     override fun Content() {
         val navigator = LocalTabNavigator.current
@@ -45,6 +63,7 @@ class HomeFirstTimeScreen: Screen {
         HomeFirstTime(navigator = navigator)
     }
 }
+
 
 @Composable
 fun HomeFirstTime(navigator: TabNavigator) {
@@ -56,6 +75,7 @@ fun HomeFirstTime(navigator: TabNavigator) {
     Column (modifier = Modifier
         .fillMaxSize()
         .background(colorResource(id = R.color.primary_light))
+        .verticalScroll(state = rememberScrollState())
     ) {
         Box (modifier = Modifier
             .fillMaxWidth()
@@ -74,7 +94,7 @@ fun HomeFirstTime(navigator: TabNavigator) {
                     text = "TRAGUI",
                     fontFamily = pixelfyFontFamily,
                     fontWeight = FontWeight.SemiBold,
-                    fontSize = 68.sp,
+                    fontSize = 70.sp,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .offset(y = (-10).dp)
@@ -105,7 +125,9 @@ fun HomeFirstTime(navigator: TabNavigator) {
             }
         }
 
+        /// boton animado
         Box (modifier = Modifier.fillMaxWidth()){
+
             Button(
                 onClick = { navigator.current = DrinkCabinetTab },
                 colors = ButtonColors(
@@ -114,10 +136,10 @@ fun HomeFirstTime(navigator: TabNavigator) {
                     disabledContainerColor = Color.Gray,
                     disabledContentColor = Color.Black,
                 ),
+                border = BorderStroke(6.dp, Color.Black),
                 shape = RectangleShape,
                 modifier = Modifier
                     .padding(35.dp, 20.dp)
-                    .border(BorderStroke(6.dp, Color.Black))
                     .shadowsPlus(
                         type = ShadowsPlusType.SoftLayer,
                         color = colorResource(id = R.color.black).copy(alpha = 0.25f),
@@ -126,6 +148,7 @@ fun HomeFirstTime(navigator: TabNavigator) {
                         radius = 0.dp
                     )
                     .fillMaxWidth()
+                    .animationButom()
             ) {
                 Text(text = "Select your bottles",
                     color = Color.White,
@@ -142,3 +165,6 @@ fun HomeFirstTime(navigator: TabNavigator) {
 
     }
 }
+
+
+

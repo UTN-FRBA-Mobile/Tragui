@@ -29,8 +29,11 @@ import com.vasco.tragui.R
 import com.vasco.tragui.ui.theme.pixelfyFontFamily
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.runtime.getValue
@@ -72,6 +75,7 @@ fun HomeFirstTime(navigator: TabNavigator) {
     Column (modifier = Modifier
         .fillMaxSize()
         .background(colorResource(id = R.color.primary_light))
+        .verticalScroll(state = rememberScrollState())
     ) {
         Box (modifier = Modifier
             .fillMaxWidth()
@@ -120,47 +124,12 @@ fun HomeFirstTime(navigator: TabNavigator) {
                     .align(Alignment.Center))
             }
         }
-/*
-        Box (modifier = Modifier.fillMaxWidth()){
-            Button(
-                onClick = { navigator.current = DrinkCabinetTab},
-                colors = ButtonColors(
-                    containerColor = colorResource(id = R.color.primary_dark),
-                    contentColor = Color.White,
-                    disabledContainerColor = Color.Gray,
-                    disabledContentColor = Color.Black,
-                ),
-                shape = RectangleShape,
-                modifier = Modifier
-                    .padding(35.dp, 20.dp)
-                    .border(BorderStroke(6.dp, Color.Black))
-                    .shadowsPlus(
-                        type = ShadowsPlusType.SoftLayer,
-                        color = colorResource(id = R.color.black).copy(alpha = 0.25f),
-                        spread = (-5).dp,
-                        offset = DpOffset(13.dp, 13.dp),
-                        radius = 0.dp
-                    )
-                    .fillMaxWidth()
-            ) {
-                Text(text = "Select your bottles",
-                    color = Color.White,
-                    fontFamily = pixelfyFontFamily,
-                    fontWeight = FontWeight.Normal,
-                    fontSize = 26.sp,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .padding(vertical = 13.dp)
-                        .fillMaxWidth()
-                )
-            }
-        }
-*/
+
         /// boton animado
         Box (modifier = Modifier.fillMaxWidth()){
 
             Button(
-                onClick = { },
+                onClick = { navigator.current = DrinkCabinetTab },
                 colors = ButtonColors(
                     containerColor = colorResource(id = R.color.primary_dark),
                     contentColor = Color.White,

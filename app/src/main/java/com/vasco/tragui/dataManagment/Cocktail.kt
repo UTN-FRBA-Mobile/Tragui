@@ -12,7 +12,7 @@ public class Cocktail {
     var instructions: String? = null
     val measures: List<String>
     var tags: String? = null
-    val thumbnail: String
+    val thumbnail: String // string con link
     val type: String
 
     constructor(name: String, id_api: String, alternativeName: String, category: String, IBA: String, glassType: String, image: String, ingredients: List<String>, instructions: String, measures:List<String>, tags: String, thumbnail: String, type: String ) {

@@ -65,6 +65,7 @@ import com.gigamole.composeshadowsplus.common.shadowsPlus
 import com.google.firebase.logger.Logger
 import com.vasco.tragui.dataManagment.FirebaseGetter
 import com.vasco.tragui.store.DiskDataStore
+import com.vasco.tragui.ui.animations.Animations.GifImage
 import com.vasco.tragui.ui.theme.pixelfyFontFamily
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -210,8 +211,9 @@ class DrinkCabinetEditScreen: Screen {
                 if (loading)
                     Box (modifier = Modifier
                         .fillMaxWidth()
-                        .align(Alignment.Center)) {
-                        CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                        .align(Alignment.Center)
+                        .padding(bottom = 70.dp)) {
+                        GifImage()
                     }
                 else {
                     LazyVerticalGrid(

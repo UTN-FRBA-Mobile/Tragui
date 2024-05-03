@@ -45,7 +45,7 @@ class DrinkCabinetScreen: Screen {
     override fun Content() {
 
         val logger = Logger.getLogger("VascoLogger")
-        var bottles: MutableList<String> = mutableListOf("Vodka", "Tequila", "Whiskey", "Gin", "Champagne")
+        var bottles: MutableList<String> = mutableListOf("Strawberry schnapps","Vodka", "Tequila", "Whiskey", "Gin", "Champagne")
 
         Column(
             modifier = Modifier
@@ -64,6 +64,7 @@ class DrinkCabinetScreen: Screen {
                 ),
                 modifier = Modifier
                     .padding(20.dp)
+                    .padding(bottom = 1.dp)
                     .fillMaxWidth()
                     .shadowsPlus(
                         type = ShadowsPlusType.SoftLayer,
@@ -116,13 +117,14 @@ class DrinkCabinetScreen: Screen {
             }
             bottles.map{bottle ->
                 Box(
-                    modifier = Modifier
-                        .padding(bottom = 15.dp)
-                ) {
+                    Modifier
+                        .padding(bottom = 18.dp)
+                )
+                {
                     // Row con la imagen y el texto
                     Row(
                         Modifier
-                            .padding(start = 60.dp)
+                            .padding(start = 20.dp)
                             .padding(bottom = 18.dp)
                     ) {
                         AsyncImage(

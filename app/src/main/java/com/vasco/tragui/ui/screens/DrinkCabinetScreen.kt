@@ -19,10 +19,13 @@ import androidx.compose.material3.CardColors
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -30,6 +33,8 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import coil.compose.AsyncImage
 import com.gigamole.composeshadowsplus.common.ShadowsPlusType
@@ -37,6 +42,8 @@ import com.gigamole.composeshadowsplus.common.shadowsPlus
 import com.google.firebase.logger.Logger
 import com.vasco.tragui.R
 import com.vasco.tragui.dataManagment.Cocktail
+import com.vasco.tragui.store.DiskDataStore
+import com.vasco.tragui.ui.animations.Animations.GifImage
 import com.vasco.tragui.ui.theme.pixelfyFontFamily
 import okhttp3.internal.wait
 
@@ -45,7 +52,18 @@ class DrinkCabinetScreen: Screen {
     override fun Content() {
 
         val logger = Logger.getLogger("VascoLogger")
-        var bottles: MutableList<String> = mutableListOf("Strawberry schnapps","Vodka", "Tequila", "Whiskey", "Gin", "Champagne")
+        val context = LocalContext.current
+        val dataStore = DiskDataStore(context)
+        val userBottles = dataStore.getSelectedBottles().collectAsState(initial = "[]")
+        val navigator = LocalNavigator.currentOrThrow
+
+        var bottles = userBottles.value?.removeSurrounding("[", "]") // Remove the brackets
+            ?.split(",") // Split by comma
+            ?.map { it.trim() }!!
+
+
+
+        logger.info("${bottles[0]}")
 
         Column(
             modifier = Modifier
@@ -85,7 +103,9 @@ class DrinkCabinetScreen: Screen {
                             .padding(top = 10.dp)
                             .padding(start = 285.dp)
                     ){
-                        IconButton(onClick = {}){
+                        IconButton(onClick = {
+                            navigator.push(DrinkCabinetEditScreen())
+                        }){
                             Image(
                                 painter = painterResource(id = R.drawable.pencil_edit),
                                 contentDescription = "Cabinet",
@@ -115,46 +135,51 @@ class DrinkCabinetScreen: Screen {
                     )
                 }
             }
+            bottles = bottles.filter{ bottle -> bottle != "" }
+            if(bottles.size == 0) {
+                GifImage()
+            }
             bottles.map{bottle ->
-                Box(
-                    Modifier
-                        .padding(bottom = 18.dp)
-                )
-                {
-                    // Row con la imagen y el texto
-                    Row(
-                        Modifier
-                            .padding(start = 20.dp)
-                            .padding(bottom = 18.dp)
-                    ) {
-                        AsyncImage(
-                            model = "https://www.thecocktaildb.com/images/ingredients/${bottle}-Medium.png",
-                            contentDescription = bottle,
-                            modifier = Modifier.height(65.dp)
-                        )
-                        Text(
-                            text = bottle,
-                            fontFamily = pixelfyFontFamily,
-                            fontSize = 35.sp,
-                            modifier = Modifier.padding(top = 14.dp),
-                        )
-                    }
-
                     Box(
-                        modifier = Modifier
-                            .align(Alignment.BottomCenter)
-                            .padding(horizontal = 20.dp)
-                            .height(10.dp)
-                            .fillMaxWidth()
-                            .shadowsPlus(
-                                type = ShadowsPlusType.SoftLayer,
-                                color = colorResource(id = R.color.black).copy(alpha = 0.25f),
-                                spread = (0).dp,
-                                offset = DpOffset(6.dp, 8.dp),
-                                radius = 0.dp,
+                        Modifier
+                            .padding(bottom = 18.dp)
+                    )
+                    {
+                        // Row con la imagen y el texto
+                        Row(
+                            Modifier
+                                .padding(start = 20.dp)
+                                .padding(bottom = 18.dp)
+                        ) {
+                            AsyncImage(
+                                model = "https://www.thecocktaildb.com/images/ingredients/${bottle}-Medium.png",
+                                contentDescription = bottle,
+                                modifier = Modifier.height(65.dp)
                             )
-                            .background(Color.Black)
-                    ) {}
+                            Text(
+                                text = bottle,
+                                fontFamily = pixelfyFontFamily,
+                                fontSize = 35.sp,
+                                modifier = Modifier.padding(top = 14.dp),
+                            )
+                        }
+
+                        Box(
+                            modifier = Modifier
+                                .align(Alignment.BottomCenter)
+                                .padding(horizontal = 20.dp)
+                                .height(10.dp)
+                                .fillMaxWidth()
+                                .shadowsPlus(
+                                    type = ShadowsPlusType.SoftLayer,
+                                    color = colorResource(id = R.color.black).copy(alpha = 0.25f),
+                                    spread = (0).dp,
+                                    offset = DpOffset(6.dp, 8.dp),
+                                    radius = 0.dp,
+                                )
+                                .background(Color.Black)
+                        ) {}
+
                 }
             }
         }

@@ -82,11 +82,13 @@ fun PixelCocktailContainer( cocktail: Cocktail ) {
                     )
                     {
                         // La imagen principal de la tarjeta
-                        AsyncImage(
-                            contentDescription = "Cocktail thumbnail",
-                            model = "https://www.thecocktaildb.com/images/media/drink/u736bd1605907086.jpg/preview"
-                        )
+                        // AsyncImage(
+                           // contentDescription = "Cocktail thumbnail",
+                          //  model = cocktail.thumbnail
+                        //)
                         // La columna de textos
+
+                        PixelImageContainer(src = cocktail.thumbnail, height = 80.dp, width = 80.dp)
                         Column (
                             modifier = Modifier.weight(1f)
 

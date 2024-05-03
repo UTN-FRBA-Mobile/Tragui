@@ -213,7 +213,7 @@ class DrinkCabinetEditScreen: Screen {
                         .fillMaxWidth()
                         .align(Alignment.Center)
                         .padding(bottom = 70.dp)) {
-                        GifImage()
+                        GifImage(Modifier.height(200.dp))
                     }
                 else {
                     LazyVerticalGrid(
@@ -278,6 +278,7 @@ class DrinkCabinetEditScreen: Screen {
                                         }
 
                                     selectedBottles = updatedSelectedBottles
+
                                     logger.info(selectedBottles.toString())
                                 }, modifier = Modifier
                                     .offset(x = 73.dp, y = (-18).dp)
@@ -297,7 +298,7 @@ class DrinkCabinetEditScreen: Screen {
 
             Button(onClick = {
                 scope.launch {
-                    dataStore.saveBottles(selectedBottles.toString())
+                    dataStore.saveBottles(selectedBottles.filter{ bottle -> bottle != "" }.toString())
                 }
                 navigator.push(DrinkCabinetScreen())
             },

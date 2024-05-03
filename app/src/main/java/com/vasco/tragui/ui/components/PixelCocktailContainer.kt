@@ -39,8 +39,7 @@ import com.vasco.tragui.ui.theme.pixelfyFontFamily
 
 
 
-val margarita: Cocktail = Cocktail("Margarita", "12345", "", "Classic Cocktail", "", "WISKY", "", listOf("2 oz tequila", "1 oz orange liqueur", "1 oz fresh lemon juice", "Salt for the rim"), "Moisten the rim of a cocktail glass with lime and then with salt. Add all ingredients to a shaker with ice. Shake well and strain into the prepared glass. Enjoy!", listOf("2 oz", "1 oz", "1 oz", "To taste"), "", "https://example.com/margarita.jpg", "Alcoholic")
-
+//Funcion que crea las tarjetas de los tragos
 @Composable
 fun PixelCocktailContainer( cocktail: Cocktail ) {
 
@@ -65,73 +64,66 @@ fun PixelCocktailContainer( cocktail: Cocktail ) {
                 radius = 0.dp
             )
             .background(Color.White)
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxHeight()
-                .padding(horizontal = 10.dp)
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
+        )
+    {
+        // ESTO ES LO QUE ESTA ADENTRO DE LA CARD
+            Box(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 10.dp, bottom = 10.dp, start = 10.dp)
-            ) {
-                AsyncImage(
-                    contentDescription = "Cocktail thumbnail",
-                    model = "https://www.thecocktaildb.com/images/media/drink/u736bd1605907086.jpg/preview"
-                )
-                Column (
-                    modifier = Modifier.weight(1f)
-
-                ) {
-                    Text(
-                        text = cocktail.name,
-                        color = Color.Black,
-                        fontFamily = pixelfyFontFamily,
-                        fontSize = 25.sp,
-                        modifier = Modifier.padding(top = 2.dp, bottom = 5.dp, start = 10.dp)
+                    .fillMaxHeight()
+                    .padding(horizontal = 10.dp)
+            )
+            {
+                // UN ROW para tenes todos los objetos ordenados de manera orizontal
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 10.dp, bottom = 10.dp, start = 10.dp)
                     )
-                    Text(
-                        text = cocktail.category,
-                        color = Color.Black,
-                        fontFamily = pixelfyFontFamily,
-                        fontSize = 16.sp,
-                        lineHeight = 16.sp,
-                        modifier = Modifier.padding( start = 13.dp)
+                    {
+                        // La imagen principal de la tarjeta
+                        AsyncImage(
+                            contentDescription = "Cocktail thumbnail",
+                            model = "https://www.thecocktaildb.com/images/media/drink/u736bd1605907086.jpg/preview"
+                        )
+                        // La columna de textos
+                        Column (
+                            modifier = Modifier.weight(1f)
 
-                    )
-                    Text(
-                        text = cocktail.type,
-                        color = Color.Black,
-                        fontFamily = pixelfyFontFamily,
-                        fontSize = 16.sp,
-                        lineHeight = 16.sp,
-                        modifier = Modifier.padding( bottom = 10.dp, start = 13.dp)
-                    )
-                }
-                Icon(
-                    painter = painterResource(id = R.drawable.arrow),
-                    contentDescription = "SVG Icon",
-                    modifier = Modifier.padding( end = 12.dp)
+                        ) {
+                            Text(
+                                text = cocktail.name,
+                                color = Color.Black,
+                                fontFamily = pixelfyFontFamily,
+                                fontSize = 25.sp,
+                                modifier = Modifier.padding(top = 2.dp, bottom = 5.dp, start = 10.dp)
+                            )
+                            Text(
+                                text = cocktail.category,
+                                color = Color.Black,
+                                fontFamily = pixelfyFontFamily,
+                                fontSize = 16.sp,
+                                lineHeight = 16.sp,
+                                modifier = Modifier.padding( start = 13.dp)
 
-                )
+                            )
+                            Text(
+                                text = cocktail.type,
+                                color = Color.Black,
+                                fontFamily = pixelfyFontFamily,
+                                fontSize = 16.sp,
+                                lineHeight = 16.sp,
+                                modifier = Modifier.padding( bottom = 10.dp, start = 13.dp)
+                            )
+                        }
+                        // El icono de la flecha
+                        Icon(
+                            painter = painterResource(id = R.drawable.arrow),
+                            contentDescription = "SVG Icon",
+                            modifier = Modifier.padding( end = 12.dp)
+
+                        )
+                    }
             }
-        }
     }
 }
-
-@Preview
-@Composable
-fun PixelCocktailContainer() {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = colorResource(id = R.color.white))
-    ) {
-        Box(modifier = Modifier.align(Alignment.Center)) {
-            PixelCocktailContainer(margarita)
-        }
-    }
-}
-

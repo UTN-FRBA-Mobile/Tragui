@@ -117,7 +117,6 @@ class DrinkCabinetEditScreen: Screen {
 
             Box (modifier = Modifier.fillMaxSize()) {
 
-
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(150.dp),
                 modifier = Modifier.fillMaxSize(),

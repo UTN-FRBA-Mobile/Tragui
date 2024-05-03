@@ -17,7 +17,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.vasco.tragui.R
 import com.vasco.tragui.ui.components.PixelImageContainer
 
-class CocktailDetailScreen: Screen {
+data class CocktailDetailScreen(val cocktailId: String): Screen {
 
     @Composable
     override fun Content() {
@@ -28,7 +28,7 @@ class CocktailDetailScreen: Screen {
                 .fillMaxSize()
                 .background(color = colorResource(id = R.color.white))
         ) {
-            Text(text = "Detail screen", fontSize = 20.sp)
+            Text(text = cocktailId, fontSize = 20.sp)
             Box(modifier = Modifier.align(Alignment.CenterHorizontally)) {
                 PixelImageContainer(src = "https://www.thecocktaildb.com/images/media/drink/u736bd1605907086.jpg/preview", 150.dp, 150.dp)
             }

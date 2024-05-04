@@ -27,7 +27,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DockedSearchBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -40,7 +39,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
@@ -55,6 +53,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.core.lifecycle.LifecycleEffect
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -69,24 +68,23 @@ import com.vasco.tragui.ui.animations.Animations.GifImage
 import com.vasco.tragui.ui.theme.pixelfyFontFamily
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class DrinkCabinetEditScreen: Screen {
-
-    val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     @OptIn(ExperimentalMaterial3Api::class)
     @SuppressLint("MutableCollectionMutableState")
     @Composable
     override fun Content() {
         val logger = Logger.getLogger("DrinkCabinetEdit")
+        val coroutineScope = CoroutineScope(Dispatchers.Main)
 
         // ---------------------------------------
         // Async code
         // ---------------------------------------
         val context = LocalContext.current
-        val scope = rememberCoroutineScope()
         val dataStore = DiskDataStore(context)
         val userBottles = dataStore.getSelectedBottles().collectAsState(initial = "[]")
 
@@ -116,6 +114,13 @@ class DrinkCabinetEditScreen: Screen {
                 }
             }
         }
+
+        LifecycleEffect(
+//            onStarted = { /*...*/ },
+            onDisposed = {
+                coroutineScope.cancel()
+            }
+        )
 
 
         // ---------------------------------------
@@ -302,7 +307,7 @@ class DrinkCabinetEditScreen: Screen {
 
 
             Button(onClick = {
-                scope.launch {
+                coroutineScope.launch {
                     dataStore.saveBottles(selectedBottles.filter{ bottle -> bottle != "" }.toString())
                 }
                 navigator.push(DrinkCabinetScreen())

@@ -113,4 +113,10 @@ dependencies {
 
     // Extended material icons
     implementation("androidx.compose.material:material-icons-extended:1.6.7")
+
+    // Glance widget
+    // For AppWidgets support
+    implementation( "androidx.glance:glance-appwidget:1.0.0" )
+    implementation( "androidx.glance:glance-material:1.0.0" )
+    implementation( "androidx.glance:glance-material3:1.0.0" )
 }

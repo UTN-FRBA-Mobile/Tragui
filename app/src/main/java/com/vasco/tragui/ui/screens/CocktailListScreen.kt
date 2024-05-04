@@ -15,11 +15,13 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable;
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,14 +44,13 @@ import com.vasco.tragui.ui.components.PixelCocktailContainer
 import com.vasco.tragui.ui.theme.pixelfyFontFamily
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
 //LOGICA DE LA PAGINA PRINCIPAL
 class CocktailListScreen: Screen {
-
-    val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     @Composable
     override fun Content() {
@@ -65,26 +66,34 @@ class CocktailListScreen: Screen {
         }
 
         LaunchedEffect(Unit) {
+            val coroutineScope = CoroutineScope(Dispatchers.Main)
             coroutineScope.launch {
                 withContext(Dispatchers.Main) {
                     try {
                         val dataStore = DiskDataStore(context)
                         val userBottles = dataStore.getSelectedBottles()
                         userBottles.collect{
-                            var bottles = it?.removeSurrounding("[", "]") // Remove the brackets
+                            val bottles = it?.removeSurrounding("[", "]") // Remove the brackets
                                 ?.split(",") // Split by comma
                                 ?.map { it.trim() }!!
                                 setCocktails(FirebaseGetter.getCocktailsByBottles(bottles))
                                 loading = false
                         }
-
                     } catch (e: Exception) {
                         // handle exception
                     } finally {
+                        loading = false
                     }
                 }
             }
         }
+
+//        DisposableEffect(Unit) {
+//            onDispose {
+//                coroutineScope.cancel()
+//            }
+//        }
+
         if (loading)
             Box (modifier = Modifier
                 .fillMaxSize()

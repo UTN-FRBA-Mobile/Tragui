@@ -31,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
@@ -166,12 +167,16 @@ data class CocktailDetailScreen(val cocktail_id: String): Screen {
                                 )
                             }
                             Box(
-                                modifier = Modifier.fillMaxWidth().padding(top = 25.dp),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(top = 25.dp),
                                 contentAlignment = Alignment.Center
                             ) {
                                 PixelImageContainer(src = cocktail.thumbnail, 150.dp, 150.dp)
                             }
-                            Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth().padding(top = 25.dp)){
+                            Row(horizontalArrangement = Arrangement.Center, modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 25.dp)){
                                 Text(
                                     text = "Glass type",
                                     color = Color.Black,
@@ -180,7 +185,7 @@ data class CocktailDetailScreen(val cocktail_id: String): Screen {
                                     textAlign = TextAlign.Center,
                                     lineHeight = 70.sp
                                 )
-                                Image(painter = painterResource(id = R.drawable.vaso_prueba), contentDescription = "vaso", Modifier.size(70.dp))
+                                Image(painter = getGlassPainterByGlassType(glassType = cocktail.glassType), contentDescription = "vaso", Modifier.size(70.dp))
                             }
                             Box(
                                 modifier = Modifier
@@ -260,5 +265,30 @@ data class CocktailDetailScreen(val cocktail_id: String): Screen {
                 }
             }}
         }
+    }
+}
+
+@Composable
+fun getGlassPainterByGlassType(glassType: String): Painter {
+    when (glassType) {
+        "Balloon Glass" -> return painterResource(id = R.drawable.balloon_glass)
+        "Beer Glass", "Pint glass" -> return painterResource(id = R.drawable.beer_glass)
+        "Brandy snifter" -> return painterResource(id = R.drawable.brandy_glass)
+        "Champagne Flute" -> return painterResource(id = R.drawable.champagne_glass)
+        "Cocktail Glass", "Cocktail glass" -> return painterResource(id = R.drawable.cocktail_glass)
+        "Coffee Mug", "Coffee mug" -> return painterResource(id = R.drawable.coffee_mug_glass)
+        "Collins Glass", "Collins glass" -> return painterResource(id = R.drawable.collins_glass)
+        "Copper Mug" -> return painterResource(id = R.drawable.copper_mug_glass)
+        "Half Bottle" -> return painterResource(id = R.drawable.esto_no_es_coca_papi)
+        "Highball Glass", "Highball glass" -> return painterResource(id = R.drawable.highball_glass)
+        "Hurricane glass" -> return painterResource(id = R.drawable.hurricane_glass)
+        "Margarita glass" -> return painterResource(id = R.drawable.margarita_glass)
+        "Mason jar" -> return painterResource(id = R.drawable.mason_jar_glass)
+        "Old-Fashioned glass", "Old-fashioned glass", "Whiskey sour glass" -> return painterResource(id = R.drawable.whiskeysour_glass)
+        "Pitcher" -> return painterResource(id = R.drawable.pitcher)
+        "Punch Bowl", "Punch bowl" -> return painterResource(id = R.drawable.punch_bowl_glass)
+        "Shot glass" -> return painterResource(id = R.drawable.shot_glass)
+        "Wine Glass", "Wine glass" -> return painterResource(id = R.drawable.wine_glass)
+        else -> return painterResource(id = R.drawable.starting_wine)
     }
 }

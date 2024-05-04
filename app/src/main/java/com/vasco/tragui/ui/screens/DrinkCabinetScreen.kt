@@ -151,10 +151,15 @@ class DrinkCabinetScreen: Screen {
                                 .padding(start = 20.dp)
                                 .padding(bottom = 18.dp)
                         ) {
+                            var url = "https://www.thecocktaildb.com/images/ingredients/${bottle}-Medium.png"
+                            var tamanio = 65
+                            if(bottle== "Fernet Branca"){
+                                url = "https://pbs.twimg.com/media/GMtwlBTWUAEAdNz?format=png&name=small"
+                            }
                             AsyncImage(
-                                model = "https://www.thecocktaildb.com/images/ingredients/${bottle}-Medium.png",
+                                model = url,
                                 contentDescription = bottle,
-                                modifier = Modifier.height(65.dp)
+                                modifier = Modifier.size(tamanio.dp)
                             )
                             Text(
                                 text = bottle,

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
@@ -55,6 +56,7 @@ class MainActivity : ComponentActivity() {
                                     containerColor = colorResource(R.color.primary),
                                     contentPadding = PaddingValues(top = 6.dp, bottom = 6.dp),
                                     modifier = Modifier
+                                        .height(65.dp)
                                         .drawBehind {
                                             val strokeWidth = 35f
                                             val x = size.width

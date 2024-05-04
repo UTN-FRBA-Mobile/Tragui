@@ -80,7 +80,7 @@ class DrinkCabinetEditScreen: Screen {
     @SuppressLint("MutableCollectionMutableState")
     @Composable
     override fun Content() {
-        val logger = Logger.getLogger("VascoLogger")
+        val logger = Logger.getLogger("DrinkCabinetEdit")
 
         // ---------------------------------------
         // Async code
@@ -248,15 +248,20 @@ class DrinkCabinetEditScreen: Screen {
                                     Box (modifier = Modifier
                                         .fillMaxHeight()
                                         .padding(vertical = 10.dp)) {
+                                        var url = "https://www.thecocktaildb.com/images/ingredients/${bottles!!.get(bottleIndex)}-Medium.png"
+                                        var name = bottles!!.get(bottleIndex)
+                                        if(bottles!!.get(bottleIndex) == "Fernet Branca"){
+                                            url = "https://pbs.twimg.com/media/GMtwlBTWUAEAdNz?format=png&name=small"
+                                        }
                                         AsyncImage(
-                                            model = "https://www.thecocktaildb.com/images/ingredients/${bottles!!.get(bottleIndex)}-Medium.png",
-                                            contentDescription = bottles!!.get(bottleIndex),
+                                            model = url,
+                                            contentDescription = name,
                                             modifier = Modifier
                                                 .fillMaxWidth()
                                                 .align(Alignment.TopCenter)
                                         )
                                         Text(
-                                            text = bottles!!.get(bottleIndex),
+                                            text = name,
                                             color = Color.Black,
                                             fontFamily = pixelfyFontFamily,
                                             fontSize = 18.sp,

@@ -43,6 +43,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.core.lifecycle.LifecycleEffect
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -62,7 +63,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-data class CocktailDetailScreen(val cocktail_id: String): Screen {
+data class CocktailDetailScreen(val cocktail_id: String?): Screen {
 
     @Composable
     override fun Content() {
@@ -74,20 +75,27 @@ data class CocktailDetailScreen(val cocktail_id: String): Screen {
             mutableStateOf(true)
         }
 
-        LaunchedEffect(Unit) {
-            val coroutineScope = CoroutineScope(Dispatchers.Main)
-            coroutineScope.launch {
-                withContext(Dispatchers.Main) {
-                    try {
+        LifecycleEffect(
+            onStarted = {
+                if (cocktail_id == null) {
+                    navigator.pop()
+                    return@LifecycleEffect
+                }
+                val coroutineScope = CoroutineScope(Dispatchers.Main)
+                coroutineScope.launch {
+                    withContext(Dispatchers.Main) {
+                        try {
                             setCocktail(FirebaseGetter.getCocktailById(cocktail_id))
-                    } catch (e: Exception) {
-                        // handle exception
-                    } finally {
-                        loading = false
+                        } catch (e: Exception) {
+                            // handle exception
+                        } finally {
+                            loading = false
+                        }
                     }
                 }
-            }
-        }
+            },
+            onDisposed = {}
+        )
 
         if (loading)
             Box (modifier = Modifier

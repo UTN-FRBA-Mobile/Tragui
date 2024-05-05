@@ -31,6 +31,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.core.lifecycle.LifecycleEffect
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -65,41 +66,44 @@ class CocktailListScreen: Screen {
             mutableStateOf(true)
         }
 
-        LaunchedEffect(Unit) {
-            val coroutineScope = CoroutineScope(Dispatchers.Main)
-            coroutineScope.launch {
-                withContext(Dispatchers.Main) {
-                    try {
-                        val dataStore = DiskDataStore(context)
-                        val userBottles = dataStore.getSelectedBottles()
-                        userBottles.collect{
-                            val bottles = it?.removeSurrounding("[", "]") // Remove the brackets
-                                ?.split(",") // Split by comma
-                                ?.map { it.trim() }!!
+        LifecycleEffect(
+            onStarted = {
+                val coroutineScope = CoroutineScope(Dispatchers.Main)
+                coroutineScope.launch {
+                    withContext(Dispatchers.Main) {
+                        try {
+                            val dataStore = DiskDataStore(context)
+                            val userBottles = dataStore.getSelectedBottles()
+                            userBottles.collect{
+                                val bottles = it?.removeSurrounding("[", "]") // Remove the brackets
+                                    ?.split(",") // Split by comma
+                                    ?.map { it.trim() }!!
                                 setCocktails(FirebaseGetter.getCocktailsByBottles(bottles))
                                 loading = false
+                            }
+                        } catch (e: Exception) {
+                            logger.info(e.message)
+                            // handle exception
+                        } finally {
+                            loading = false
                         }
-                    } catch (e: Exception) {
-                        // handle exception
-                    } finally {
-                        loading = false
                     }
                 }
-            }
-        }
+            },
+            onDisposed = {
 
-//        DisposableEffect(Unit) {
-//            onDispose {
-//                coroutineScope.cancel()
-//            }
-//        }
+            }
+        )
 
         if (loading)
             Box (modifier = Modifier
                 .fillMaxSize()
                 .background(colorResource(id = R.color.primary_light))
                 .padding(bottom = 70.dp)) {
-                Animations.GifImage(Modifier.align(Alignment.Center).height(300.dp))
+                Animations.GifImage(
+                    Modifier
+                        .align(Alignment.Center)
+                        .height(300.dp))
             }
         else {
             Column(

@@ -12,9 +12,12 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.vasco.tragui.R
+import com.vasco.tragui.ui.screens.CocktailListScreen
+import com.vasco.tragui.ui.screens.SearchScreen
 
 object SearchTab: Tab {
     private fun readResolve(): Any = HomeTab
@@ -35,8 +38,8 @@ object SearchTab: Tab {
 
     @Composable
     override fun Content() {
-        Column (modifier = Modifier.fillMaxSize()) {
-            Text(text = "Search tab", fontSize = 24.sp)
-        }
+        Navigator(
+            SearchScreen()
+        )
     }
 }

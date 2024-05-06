@@ -1,5 +1,6 @@
 package com.vasco.tragui.dataManagment
 
+import com.google.firebase.firestore.Filter
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
@@ -7,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.tasks.await
+import java.util.Locale
 import java.util.logging.Logger
 
 object FirebaseGetter {
@@ -38,9 +40,10 @@ object FirebaseGetter {
         return tragosDisponibles
     }
 
-    suspend fun getCocktailsByName(name: String): MutableList<Cocktail> {
+    suspend fun getCocktailsByName(nombre: String): MutableList<Cocktail> {
         var tragosBuscados: MutableList<Cocktail> = mutableListOf()
-        var tragos = db.collection("coctail").whereEqualTo("name", name).get().await()
+        var name = nombre.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+        var tragos = db.collection("coctail").where(Filter.greaterThanOrEqualTo("name",name)).where(Filter.lessThanOrEqualTo("name",name+"\uf8ff")).get().await()
         tragos.forEach({ trago ->
 
             var ingredients = trago["ingredients"] as List<String>

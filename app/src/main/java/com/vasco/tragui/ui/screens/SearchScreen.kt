@@ -1,6 +1,7 @@
 package com.vasco.tragui.ui.screens
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -41,6 +42,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -221,10 +223,33 @@ class SearchScreen: Screen {
             }
 
 
-            if (cocktails != null) {
-                logger.info(cocktails.toString())
+            // Carga La imagen del libro de menu de Drinks
+            if(cocktails?.size == 0 || cocktails?.size == null){
+                Box(modifier = Modifier.fillMaxWidth()
+                    ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.drinksmenu1),
+                        contentDescription = "Cabinet",
+                        Modifier
+                            .fillMaxSize()
+                            .padding(30.dp)
+                    )
 
+                    // Esto lo hice porque al superponer ambas imagenes el vino se ve feo // se soluciona cargando una unica imagen con  el vino adentro
+                    if(!active) {
+
+                        Image(
+                            painter = painterResource(R.drawable.starting_wine),
+                            contentDescription = "Wine",
+                            modifier = Modifier
+                                .padding(top = 70.dp)
+                                .align(Alignment.TopCenter)
+                        )
+                    }
+
+                }
             }
+
 
             Box(modifier = Modifier.fillMaxSize()
                 .padding(top = 20.dp)) {
@@ -241,7 +266,13 @@ class SearchScreen: Screen {
                     LazyColumn() {
                         cocktails?.size?.let {
                             items(it) { cocktailsIndex ->
-                                PixelCocktailSerchable(cocktails[cocktailsIndex])
+                                Box(
+                                    modifier = Modifier
+                                        .clickable { navigator.push(CocktailDetailScreenForSearch(cocktails[cocktailsIndex].id_firebase)) }
+                                ) {
+
+                                    PixelCocktailSerchable(cocktails[cocktailsIndex])
+                                }
                             }
 
                         }

@@ -30,6 +30,6 @@ object DrinkCabinetTab: Tab {
 
     @Composable
     override fun Content() {
-        Navigator(DrinkCabinetEditScreen())
+        Navigator(DrinkCabinetScreen())
     }
 }

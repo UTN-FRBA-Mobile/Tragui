@@ -1,5 +1,7 @@
 package com.vasco.tragui.ui.screens;
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -34,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
@@ -43,6 +46,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.startActivity
 import cafe.adriel.voyager.core.lifecycle.LifecycleEffect
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
@@ -75,6 +79,8 @@ data class CocktailDetailScreen(val cocktail_id: String?): Screen {
             mutableStateOf(true)
         }
 
+        val coroutineScopeShare = rememberCoroutineScope()
+
         LifecycleEffect(
             onStarted = {
                 if (cocktail_id == null) {
@@ -94,7 +100,9 @@ data class CocktailDetailScreen(val cocktail_id: String?): Screen {
                     }
                 }
             },
-            onDisposed = {}
+            onDisposed = {
+                coroutineScopeShare.cancel()
+            }
         )
 
         if (loading)
@@ -143,15 +151,7 @@ data class CocktailDetailScreen(val cocktail_id: String?): Screen {
                                 .padding(top = 6.dp),
                             horizontalArrangement = Arrangement.SpaceBetween,
                         ){
-                            IconButton(onClick = {}){
-                                Image(
-                                    painter = painterResource(id = R.drawable.share),
-                                    contentDescription = "Cabinet",
-                                    Modifier
-                                        .height(38.dp)
-                                        .padding(start = 2.dp)
-                                )
-                            }
+                            Share(text = "Look at this fabulous drink: http://vasco.tragui.com/detail?id=${cocktail_id}", context = LocalContext.current)
                             IconButton(onClick = {navigator.push(CocktailListScreen())}){
                                 Image(
                                     painter = painterResource(id = R.drawable.red_cross),
@@ -300,5 +300,27 @@ fun getGlassPainterByGlassType(glassType: String): Painter {
         "Shot glass" -> return painterResource(id = R.drawable.shot_glass)
         "Wine Glass", "Wine glass" -> return painterResource(id = R.drawable.wine_glass)
         else -> return painterResource(id = R.drawable.starting_wine)
+    }
+}
+
+@Composable
+fun Share(text: String, context: Context) {
+    val sendIntent = Intent(Intent.ACTION_SEND).apply {
+        putExtra(Intent.EXTRA_TEXT, text)
+        type = "text/plain"
+    }
+    val shareIntent = Intent.createChooser(sendIntent, null)
+
+
+    IconButton(onClick = {
+        startActivity(context, shareIntent, null)
+    }){
+        Image(
+            painter = painterResource(id = R.drawable.share),
+            contentDescription = "Cabinet",
+            Modifier
+                .height(38.dp)
+                .padding(start = 2.dp)
+        )
     }
 }

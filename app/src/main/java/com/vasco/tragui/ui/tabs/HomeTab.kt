@@ -64,7 +64,6 @@ object HomeTab: Tab {
         val cocktailId = getDetailIdFromIntent(activity?.intent)
 
         Navigator(
-            //HomeFirstTimeScreen()
             screens = listOf(
                 CocktailListScreen(),
                 HomeFirstTimeScreen(),

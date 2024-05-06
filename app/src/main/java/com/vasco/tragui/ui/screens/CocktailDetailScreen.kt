@@ -2,6 +2,8 @@ package com.vasco.tragui.ui.screens;
 
 import android.content.Context
 import android.content.Intent
+import android.media.MediaPlayer
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -65,6 +67,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.time.delay
 import kotlinx.coroutines.withContext
 
 data class CocktailDetailScreen(val cocktail_id: String?): Screen {
@@ -80,6 +83,18 @@ data class CocktailDetailScreen(val cocktail_id: String?): Screen {
         }
 
         val coroutineScopeShare = rememberCoroutineScope()
+
+        // ------------------------
+        // EE
+        // ------------------------
+        val mContext = LocalContext.current
+        val mMediaPlayer = MediaPlayer.create(mContext, R.raw.moscowmule)
+
+        BackHandler {
+            mMediaPlayer.stop()
+            navigator.pop()
+        }
+        // -----------------------
 
         LifecycleEffect(
             onStarted = {
@@ -104,6 +119,7 @@ data class CocktailDetailScreen(val cocktail_id: String?): Screen {
                 coroutineScopeShare.cancel()
             }
         )
+
 
         if (loading)
             Box (modifier = Modifier
@@ -151,8 +167,15 @@ data class CocktailDetailScreen(val cocktail_id: String?): Screen {
                                 .padding(top = 6.dp),
                             horizontalArrangement = Arrangement.SpaceBetween,
                         ){
-                            Share(text = "Look at this fabulous drink: http://vasco.tragui.com/detail?id=${cocktail_id}", context = LocalContext.current)
-                            IconButton(onClick = {navigator.push(CocktailListScreen())}){
+                            Share(text = "Look at this fabulous drink: http://tragui.vasco.com/detail?id=${cocktail_id}", context = LocalContext.current)
+                            IconButton(onClick = {
+                                if (cocktail != null) {
+                                    if (cocktail.name == "Moscow Mule") {
+                                        mMediaPlayer.stop()
+                                    }
+                                }
+                                navigator.pop()
+                            }){
                                 Image(
                                     painter = painterResource(id = R.drawable.red_cross),
                                     contentDescription = "Cabinet",
@@ -163,6 +186,13 @@ data class CocktailDetailScreen(val cocktail_id: String?): Screen {
                             }
                         }
                         if (cocktail != null) {
+                            // ------------------------
+                            // EE
+                            // ------------------------
+                            if (cocktail.name == "Moscow Mule") {
+                                mMediaPlayer.start()
+                            }
+
                             Box(
                                 modifier = Modifier.fillMaxWidth(),
                                 contentAlignment = Alignment.Center

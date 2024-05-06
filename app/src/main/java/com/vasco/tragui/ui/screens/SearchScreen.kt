@@ -268,7 +268,7 @@ class SearchScreen: Screen {
                             items(it) { cocktailsIndex ->
                                 Box(
                                     modifier = Modifier
-                                        .clickable { navigator.push(CocktailDetailScreenForSearch(cocktails[cocktailsIndex].id_firebase)) }
+                                        .clickable { navigator.push(CocktailDetailScreen(cocktails[cocktailsIndex].id_firebase)) }
                                 ) {
 
                                     PixelCocktailSerchable(cocktails[cocktailsIndex])

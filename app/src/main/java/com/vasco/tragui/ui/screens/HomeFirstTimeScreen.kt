@@ -137,11 +137,10 @@ fun HomeFirstTime(tabNavigator: TabNavigator) {
     Column (modifier = Modifier
         .fillMaxSize()
         .background(colorResource(id = R.color.primary_light))
-        .verticalScroll(state = rememberScrollState())
     ) {
         Box (modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 40.dp)) {
+            .padding(top = 30.dp)) {
             Column (modifier = Modifier.fillMaxWidth()) {
                 Text(
                     text = "Welcome to",
@@ -168,7 +167,7 @@ fun HomeFirstTime(tabNavigator: TabNavigator) {
         Box(modifier = Modifier.fillMaxWidth()) {
             Box (
                 modifier = Modifier
-                    .size(width = (screenHeight * 0.35).dp, height = (screenHeight * 0.35).dp)
+                    .size(width = (screenHeight * 0.40).dp, height = (screenHeight * 0.4).dp)
                     .padding(10.dp, 10.dp)
                     .shadowsPlus(
                         type = ShadowsPlusType.SoftLayer,
@@ -188,10 +187,10 @@ fun HomeFirstTime(tabNavigator: TabNavigator) {
         }
 
         /// boton animado
-        Box (modifier = Modifier.fillMaxWidth()){
+        Box (modifier = Modifier.fillMaxSize()){
 
             Button(
-                onClick = { tabNavigator.current = DrinkCabinetTab },
+                    onClick = { tabNavigator.current = DrinkCabinetTab },
                 colors = ButtonColors(
                     containerColor = colorResource(id = R.color.primary_dark),
                     contentColor = Color.White,
@@ -201,7 +200,7 @@ fun HomeFirstTime(tabNavigator: TabNavigator) {
                 border = BorderStroke(6.dp, Color.Black),
                 shape = RectangleShape,
                 modifier = Modifier
-                    .padding(35.dp, 20.dp)
+                    .padding(start = 35.dp, end= 35.dp, bottom = 35.dp)
                     .shadowsPlus(
                         type = ShadowsPlusType.SoftLayer,
                         color = colorResource(id = R.color.black).copy(alpha = 0.25f),
@@ -210,13 +209,15 @@ fun HomeFirstTime(tabNavigator: TabNavigator) {
                         radius = 0.dp
                     )
                     .fillMaxWidth()
+                    .align(Alignment.BottomCenter)
                     .animationButom()
+
             ) {
                 Text(text = "Select your bottles",
                     color = Color.White,
                     fontFamily = pixelfyFontFamily,
                     fontWeight = FontWeight.Normal,
-                    fontSize = 26.sp,
+                    fontSize = 24.sp,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .padding(vertical = 13.dp)

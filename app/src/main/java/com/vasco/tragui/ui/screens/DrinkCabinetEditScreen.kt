@@ -1,6 +1,7 @@
 package com.vasco.tragui.ui.screens
 
 import android.annotation.SuppressLint
+import android.util.DisplayMetrics
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -72,19 +73,29 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+
+
 class DrinkCabinetEditScreen: Screen {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @SuppressLint("MutableCollectionMutableState")
     @Composable
     override fun Content() {
+
         val logger = Logger.getLogger("DrinkCabinetEdit")
+        val context = LocalContext.current
+        val displayMetrics = context.resources.displayMetrics
+        val screenWidth = displayMetrics.widthPixels / displayMetrics.density
+        val screenHeight = displayMetrics.heightPixels / displayMetrics.density
+
+        logger.info("alto ${screenHeight}")
+        logger.info("ancho ${screenWidth}")
+
         val coroutineScope = CoroutineScope(Dispatchers.Main)
 
         // ---------------------------------------
         // Async code
         // ---------------------------------------
-        val context = LocalContext.current
         val dataStore = DiskDataStore(context)
         val userBottles = dataStore.getSelectedBottles().collectAsState(initial = "[]")
 
@@ -144,6 +155,8 @@ class DrinkCabinetEditScreen: Screen {
         // ---------------------------------------
         // Composable content
         // ---------------------------------------
+
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -222,7 +235,7 @@ class DrinkCabinetEditScreen: Screen {
                     }
                 else {
                     LazyVerticalGrid(
-                        columns = GridCells.Adaptive(150.dp),
+                        columns = GridCells.Adaptive(120.dp),
                         modifier = Modifier.fillMaxSize(),
                         contentPadding = PaddingValues(25.dp),
                         verticalArrangement = Arrangement.spacedBy(30.dp),
@@ -240,7 +253,6 @@ class DrinkCabinetEditScreen: Screen {
                                         disabledContainerColor = Color.Black,
                                     ),
                                     modifier = Modifier
-                                        .height(200.dp)
                                         .shadowsPlus(
                                             type = ShadowsPlusType.SoftLayer,
                                             color = colorResource(id = R.color.black).copy(alpha = 0.25f),
@@ -250,8 +262,8 @@ class DrinkCabinetEditScreen: Screen {
                                         )
                                         .background(Color.White)
                                 ) {
-                                    Box (modifier = Modifier
-                                        .fillMaxHeight()
+                                    Column (
+                                        modifier = Modifier
                                         .padding(vertical = 10.dp)) {
                                         var url = "https://www.thecocktaildb.com/images/ingredients/${bottles!!.get(bottleIndex)}-Medium.png"
                                         var name = bottles!!.get(bottleIndex)
@@ -263,7 +275,6 @@ class DrinkCabinetEditScreen: Screen {
                                             contentDescription = name,
                                             modifier = Modifier
                                                 .fillMaxWidth()
-                                                .align(Alignment.TopCenter)
                                         )
                                         Text(
                                             text = name,
@@ -272,7 +283,6 @@ class DrinkCabinetEditScreen: Screen {
                                             fontSize = 18.sp,
                                             textAlign = TextAlign.Center,
                                             modifier = Modifier
-                                                .align(Alignment.BottomCenter)
                                                 .fillMaxWidth()
                                                 .padding(horizontal = 1.dp)
                                         )

@@ -3,6 +3,7 @@ package com.vasco.tragui.ui.screens
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import android.content.res.Resources
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -40,6 +41,7 @@ import coil.compose.AsyncImage
 import com.gigamole.composeshadowsplus.common.ShadowsPlusType
 import com.gigamole.composeshadowsplus.common.shadowsPlus
 import com.google.firebase.logger.Logger
+import com.google.rpc.context.AttributeContext.Resource
 import com.vasco.tragui.R
 import com.vasco.tragui.dataManagment.Cocktail
 import com.vasco.tragui.store.DiskDataStore
@@ -99,9 +101,11 @@ class DrinkCabinetScreen: Screen {
                         .fillMaxSize()
                 ) {
                     Box(
-                        Modifier
-                            .padding(top = 10.dp)
-                            .padding(start = 285.dp)
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(top = 8.dp)
+                            .padding(end = 16.dp),
+                        contentAlignment = Alignment.TopEnd // Alínea el contenido a la izquierda
                     ){
                         IconButton(onClick = {
                             navigator.push(DrinkCabinetEditScreen())
@@ -110,7 +114,7 @@ class DrinkCabinetScreen: Screen {
                                 painter = painterResource(id = R.drawable.pencil_edit),
                                 contentDescription = "Cabinet",
                                 Modifier
-                                    .height(35.dp)
+                                    .size(35.dp)
                             )
                         }
                     }
@@ -118,7 +122,8 @@ class DrinkCabinetScreen: Screen {
                         painter = painterResource(id = R.drawable.cabinet),
                         contentDescription = "Cabinet",
                         Modifier
-                            .height(150.dp)
+                            .fillMaxSize()
+                            .size(150.dp)
                             .padding(top = 3.dp)
                     )
                     Text(
@@ -137,7 +142,15 @@ class DrinkCabinetScreen: Screen {
             }
             bottles = bottles.filter{ bottle -> bottle != "" }
             if(bottles.size == 0) {
-                GifImage()
+                Text(
+                    text = "Your cabinet is empty",
+                    fontFamily = pixelfyFontFamily,
+                    fontSize = 35.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .padding(top = 14.dp)
+                        .fillMaxWidth()
+                )
             }
             bottles.map{bottle ->
                     Box(
@@ -165,7 +178,9 @@ class DrinkCabinetScreen: Screen {
                                 text = bottle,
                                 fontFamily = pixelfyFontFamily,
                                 fontSize = 35.sp,
-                                modifier = Modifier.padding(top = 14.dp),
+                                modifier = Modifier
+                                    .padding(top = 14.dp)
+                                    .fillMaxWidth(),
                             )
                         }
 

@@ -253,6 +253,8 @@ class DrinkCabinetEditScreen: Screen {
                                         disabledContainerColor = Color.Black,
                                     ),
                                     modifier = Modifier
+                                        .padding(bottom = if (bottleIndex == bottles.size - 1) 150.dp else 0.dp )
+                                        .height(230.dp)
                                         .shadowsPlus(
                                             type = ShadowsPlusType.SoftLayer,
                                             color = colorResource(id = R.color.black).copy(alpha = 0.25f),
@@ -262,8 +264,8 @@ class DrinkCabinetEditScreen: Screen {
                                         )
                                         .background(Color.White)
                                 ) {
-                                    Column (
-                                        modifier = Modifier
+                                    Box (
+                                        modifier = Modifier.fillMaxSize()
                                         .padding(vertical = 10.dp)) {
                                         var url = "https://www.thecocktaildb.com/images/ingredients/${bottles!!.get(bottleIndex)}-Medium.png"
                                         var name = bottles!!.get(bottleIndex)
@@ -285,6 +287,7 @@ class DrinkCabinetEditScreen: Screen {
                                             modifier = Modifier
                                                 .fillMaxWidth()
                                                 .padding(horizontal = 1.dp)
+                                                .align(Alignment.BottomCenter)
                                         )
                                     }
                                 }

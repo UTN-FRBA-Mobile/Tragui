@@ -60,7 +60,10 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(libs.firebase.firestore.ktx)
+    implementation(platform("com.google.firebase:firebase-bom:32.8.1"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation("com.google.firebase:firebase-messaging-ktx")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -68,10 +71,6 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-
-    // Import the Firebase BoM
-    implementation(platform("com.google.firebase:firebase-bom:32.8.1"))
-    implementation("com.google.firebase:firebase-analytics")
 
     // Material UI dependencies
     implementation("androidx.compose.material3:material3:1.2.1")
@@ -87,7 +86,6 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.3.0")
     implementation("com.github.GIGAMOLE:ComposeShadowsPlus:1.0.4")
 
-
     // Voyager Navigation dependencies
     val voyagerVersion = "1.0.0"
 
@@ -100,8 +98,8 @@ dependencies {
     // Preferences DataStore
     implementation("androidx.datastore:datastore-preferences:1.1.1")
 
-    // para el gif
-    implementation ("io.coil-kt:coil-gif:2.1.0")
+    // for GIFs
+    implementation("io.coil-kt:coil-gif:2.1.0")
 
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9")
@@ -116,7 +114,7 @@ dependencies {
 
     // Glance widget
     // For AppWidgets support
-    implementation( "androidx.glance:glance-appwidget:1.0.0" )
-    implementation( "androidx.glance:glance-material:1.0.0" )
-    implementation( "androidx.glance:glance-material3:1.0.0" )
+    implementation("androidx.glance:glance-appwidget:1.0.0")
+    implementation("androidx.glance:glance-material:1.0.0")
+    implementation("androidx.glance:glance-material3:1.0.0")
 }

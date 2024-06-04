@@ -4,6 +4,8 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import android.content.res.Resources
+import android.os.Bundle
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -41,10 +43,12 @@ import coil.compose.AsyncImage
 import com.gigamole.composeshadowsplus.common.ShadowsPlusType
 import com.gigamole.composeshadowsplus.common.shadowsPlus
 import com.google.firebase.logger.Logger
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.rpc.context.AttributeContext.Resource
 import com.vasco.tragui.R
 import com.vasco.tragui.dataManagment.Cocktail
 import com.vasco.tragui.store.DiskDataStore
+import com.vasco.tragui.store.FirebasePreferences
 import com.vasco.tragui.ui.animations.Animations.GifImage
 import com.vasco.tragui.ui.theme.pixelfyFontFamily
 import okhttp3.internal.wait
@@ -55,6 +59,7 @@ class DrinkCabinetScreen: Screen {
 
         val logger = Logger.getLogger("VascoLogger")
         val context = LocalContext.current
+        FirebasePreferences.getFirebaseToken(context = context)?.let { logger.info(it) }
         val dataStore = DiskDataStore(context)
         val userBottles = dataStore.getSelectedBottles().collectAsState(initial = "[]")
         val navigator = LocalNavigator.currentOrThrow
@@ -63,9 +68,6 @@ class DrinkCabinetScreen: Screen {
             ?.split(",") // Split by comma
             ?.map { it.trim() }!!
 
-
-
-        logger.info("${bottles[0]}")
 
         Column(
             modifier = Modifier
@@ -104,12 +106,23 @@ class DrinkCabinetScreen: Screen {
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(top = 8.dp)
-                            .padding(end = 16.dp),
-                        contentAlignment = Alignment.TopEnd // Alínea el contenido a la izquierda
+                            .padding(end = 16.dp, start = 16.dp),
+//                        contentAlignment = Alignment.TopEnd // Alínea el contenido a la izquierda
                     ){
                         IconButton(onClick = {
+                            FirebaseMessaging.getInstance().subscribeToTopic("booze_reminder")
+                            Toast.makeText(context, "Reminder added!", Toast.LENGTH_SHORT).show()
+                        }, modifier = Modifier.align(Alignment.TopStart)){
+                            Image(
+                                painter = painterResource(id = R.drawable.starting_wine),
+                                contentDescription = "Notifications",
+                                Modifier
+                                    .size(35.dp)
+                            )
+                        }
+                        IconButton(onClick = {
                             navigator.push(DrinkCabinetEditScreen())
-                        }){
+                        }, modifier = Modifier.align(Alignment.TopEnd)){
                             Image(
                                 painter = painterResource(id = R.drawable.pencil_edit),
                                 contentDescription = "Cabinet",
@@ -118,6 +131,7 @@ class DrinkCabinetScreen: Screen {
                             )
                         }
                     }
+
                     Image(
                         painter = painterResource(id = R.drawable.cabinet),
                         contentDescription = "Cabinet",

@@ -26,7 +26,6 @@ object FirebaseGetter {
     }
 
     suspend fun getCocktailsByBottles(bottles: List<String>): MutableList<Cocktail> {
-
         var tragosDisponibles: MutableList<Cocktail> = mutableListOf()
         var tragos = db.collection("coctail").whereArrayContainsAny("ingredients", bottles).get().await()
         tragos.forEach({ trago ->
@@ -74,5 +73,18 @@ object FirebaseGetter {
         return botellasDisponibles
     }
 
+
+    suspend fun getRandomCocktail(): Cocktail {
+        val tragosBuscados: MutableList<Cocktail> = mutableListOf()
+        val tragos = db.collection("coctail").get().await()
+        tragos.forEach({ trago ->
+            var ingredients = trago["ingredients"] as List<String>
+            var measures = trago["measures"] as List<String>
+            var cocktail = Cocktail("${trago["name"]}", trago.id, "${trago["id_api"]}", "${trago["alternativeName"]}", "${trago["category"]}", "${trago["IBA"]}","${trago["glassType"]}", "${trago["image"]}", ingredients, "${trago["instructions"]}", measures, "${trago["tags"]}","${trago["thumbnail"]}","${trago["type"]}")
+            tragosBuscados.add(cocktail)
+        })
+        // Return a random cocktail or null if the list is empty
+        return tragosBuscados.random()
+    }
 
 }

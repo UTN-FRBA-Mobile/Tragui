@@ -235,18 +235,6 @@ class SearchScreen: Screen {
                             .padding(30.dp)
                     )
 
-                    // Esto lo hice porque al superponer ambas imagenes el vino se ve feo // se soluciona cargando una unica imagen con  el vino adentro
-                    if(!active) {
-
-                        Image(
-                            painter = painterResource(R.drawable.starting_wine),
-                            contentDescription = "Wine",
-                            modifier = Modifier
-                                .padding(top = 70.dp)
-                                .align(Alignment.TopCenter)
-                        )
-                    }
-
                 }
             }
 

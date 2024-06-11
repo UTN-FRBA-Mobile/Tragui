@@ -5,10 +5,14 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
+import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.glance.Button
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
@@ -31,6 +35,7 @@ import androidx.glance.layout.Box
 import androidx.glance.layout.Column
 import androidx.glance.layout.Row
 import androidx.glance.layout.fillMaxHeight
+import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.padding
 import androidx.glance.layout.size
@@ -41,12 +46,14 @@ import com.google.gson.Gson
 import com.vasco.tragui.R
 import com.vasco.tragui.dataManagment.Cocktail
 import com.vasco.tragui.dataManagment.FirebaseGetter.getRandomCocktail
+import com.vasco.tragui.ui.animations.Animations
 import com.vasco.tragui.ui.screens.getGlassPainterByGlassType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 private val cocktailKey = stringPreferencesKey("cocktailKey")
+private val mediaPlayerKey = booleanPreferencesKey("mediaPlayerKey")
 private val gson = Gson()
 
 class DrinkWidgetReceiver: GlanceAppWidgetReceiver() {
@@ -60,8 +67,14 @@ class DrinkWidget : GlanceAppWidget() {
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         var currentCocktail: Cocktail = getRandomCocktail()
 
+
+        val mediaPlayer = MediaPlayer.create(context, R.raw.roll)
+
         provideContent {
+
             val preferences = currentState<Preferences>()
+
+            var mediaPlayerPressed = preferences[mediaPlayerKey] ?: false
             val cocktailJson = preferences[cocktailKey]
             currentCocktail = if (cocktailJson != null) {
                 gson.fromJson(cocktailJson, Cocktail::class.java)
@@ -71,58 +84,88 @@ class DrinkWidget : GlanceAppWidget() {
 
 
             GlanceTheme {
-                Box(
+
+                Column(
                     modifier = GlanceModifier
-                        .fillMaxHeight()
-                        .padding(horizontal = 10.dp)
-                        .background(R.color.white),
+                        .background(R.color.white)
                 ) {
+
+                    Image(
+                        provider = ImageProvider(R.drawable.randomdrink),
+                        contentDescription = "baner",
+                        modifier = GlanceModifier
+                            .fillMaxWidth()
+                            .padding( top=(-5.dp), start = 10.dp, end = 10.dp)
+                    )
+
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = GlanceModifier
                             .fillMaxWidth()
-                            .padding(top = 10.dp, bottom = 10.dp, start = 10.dp)
+                            .padding(top = 1.dp, bottom = 5.dp, start = 5.dp)
                     ) {
+                            val imageResId = getGlassImageResId(currentCocktail.glassType)
+                            Image(
+                                provider = ImageProvider(imageResId),
+                                contentDescription = "Glass Type",
+                                modifier = GlanceModifier
+                                    .size(80.dp)
+                                    .padding(end = 3.dp)
+                            )
 
-                        val imageResId = getGlassImageResId(currentCocktail.glassType)
+                            Column(
+                                modifier = GlanceModifier
+                                   .defaultWeight()
+                            ) {
+
+                                Text(
+                                    modifier = GlanceModifier.clickable(
+                                        onClick = actionRunCallback<RefreshAction>(),
+                                    ).padding(top = 2.dp, bottom = 5.dp, start = 10.dp),
+                                    text = currentCocktail.name,
+                                    style = TextStyle(
+                                        color = ColorProvider(R.color.black),
+                                        fontSize = 25.sp,
+                                    )
+                                )
+                                Text(
+                                    modifier = GlanceModifier.padding(start = 13.dp),
+                                    text = currentCocktail.category,
+                                    style = TextStyle(
+                                        color = ColorProvider(R.color.black),
+                                        fontSize = 16.sp,
+                                    )
+                                )
+                                Text(
+                                    modifier = GlanceModifier.padding(
+                                        bottom = 10.dp,
+                                        start = 13.dp
+                                    ),
+                                    text = currentCocktail.type,
+                                    style = TextStyle(
+                                        color = ColorProvider(R.color.black),
+                                        fontSize = 16.sp,
+                                    )
+                                )
+                            }
+
+
                         Image(
-                            provider = ImageProvider(imageResId),
-                            contentDescription = "Glass Type",
-                            modifier = GlanceModifier.size(80.dp)
+                            modifier = GlanceModifier.clickable(
+                                onClick = actionRunCallback<RefreshAction>(),
+                            ).size(95.dp)
+                                .padding(end= 15.dp),
+                            provider = ImageProvider(R.drawable.shufle),
+                            contentDescription = "roll"
                         )
 
-                        Column(
-                            modifier = GlanceModifier
-                                .padding(5.dp)
-                        ) {
-                            Text(
-                                modifier = GlanceModifier.clickable(
-                                    onClick = actionRunCallback<RefreshAction>(),
-                                ).padding(top = 2.dp, bottom = 5.dp, start = 10.dp),
-                                text = currentCocktail.name,
-                                style = TextStyle(
-                                    color = ColorProvider(R.color.black),
-                                    fontSize = 25.sp,
-                                )
-                            )
-                            Text(
-                                modifier = GlanceModifier.padding(start = 13.dp),
-                                text = currentCocktail.category,
-                                style = TextStyle(
-                                    color = ColorProvider(R.color.black),
-                                    fontSize = 16.sp,
-                                )
-                            )
-                            Text(
-                                modifier = GlanceModifier.padding(bottom = 10.dp, start = 13.dp),
-                                text = currentCocktail.type,
-                                style = TextStyle(
-                                    color = ColorProvider(R.color.black),
-                                    fontSize = 16.sp,
-                                )
-                            )
+                        if (mediaPlayerPressed) {
+                            mediaPlayer.start()
+                            mediaPlayerPressed = false
                         }
                     }
+
+
                 }
             }
         }
@@ -149,10 +192,9 @@ fun getGlassImageResId(glassType: String): Int {
         "Punch Bowl", "Punch bowl" -> R.drawable.punch_bowl_glass
         "Shot glass" -> R.drawable.shot_glass
         "Wine Glass", "Wine glass" -> R.drawable.wine_glass
-        else -> R.drawable.starting_wine
+        else -> R.drawable.collins_glass
     }
 }
-
 
 fun main() {
     // Ejemplo de cómo llamar a la función en el ámbito de una aplicación Android.
@@ -168,15 +210,6 @@ fun main() {
     }
 }
 
-class SoundReceiver : BroadcastReceiver() {
-    override fun onReceive(context: Context, intent: Intent) {
-        val mediaPlayer = MediaPlayer.create(context,R.raw.moscowmule)
-        mediaPlayer.start()
-
-
-    }
-}
-
 class RefreshAction : ActionCallback {
     override suspend fun onAction(
         context: Context,
@@ -186,10 +219,16 @@ class RefreshAction : ActionCallback {
         CoroutineScope(Dispatchers.IO).launch {
             val newCocktail = getRandomCocktail()
             updateAppWidgetState(context, glanceId) { prefs ->
-                prefs[cocktailKey] = gson.toJson(newCocktail)
+                prefs[cocktailKey] = gson.toJson(newCocktail) // ACTUALIZA AL SIGUIENTE TRAFO
+                prefs[mediaPlayerKey] = true  // SE REPRODUCE LA MUSICA
             }
+
             // Actualizar el widget
             DrinkWidget().update(context, glanceId)
         }
     }
+
 }
+
+
+

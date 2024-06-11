@@ -117,4 +117,6 @@ dependencies {
     implementation("androidx.glance:glance-appwidget:1.0.0")
     implementation("androidx.glance:glance-material:1.0.0")
     implementation("androidx.glance:glance-material3:1.0.0")
+    implementation ("com.google.code.gson:gson:2.8.8")
+
 }

@@ -3,8 +3,10 @@ package com.vasco.tragui.widgets
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
@@ -17,6 +19,7 @@ import androidx.glance.appwidget.action.ActionCallback
 import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.appwidget.provideContent
 import androidx.glance.background
+import androidx.glance.currentState
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Column
 import androidx.glance.layout.Row
@@ -53,10 +56,16 @@ class DrinkWidgetReceiver: GlanceAppWidgetReceiver() {
 
 class DrinkWidget : GlanceAppWidget() {
 
+
+    val textKey = stringPreferencesKey("text")
     override val sizeMode: SizeMode = SizeMode.Exact
+    
 
     @SuppressLint("RestrictedApi")
     override suspend fun provideGlance(context: Context, id: GlanceId) {
+
+
+
         // Obtener el cóctel aleatorio
 
         val preferences: WidgetPreferences by lazy { WidgetPreferences(context) }
@@ -89,7 +98,7 @@ class DrinkWidget : GlanceAppWidget() {
                                 modifier = GlanceModifier.clickable(
                                     onClick = actionRunCallback<RefreshAction>(),
                                 ).padding(top = 2.dp, bottom = 5.dp, start = 10.dp),
-                                text = title,
+                                text = cocktail.name,
                                 style = TextStyle(
                                     color = ColorProvider(R.color.black),
                                     fontSize = 25.sp,

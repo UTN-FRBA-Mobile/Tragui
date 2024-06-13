@@ -52,28 +52,35 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+// variables globales
 private val cocktailKey = stringPreferencesKey("cocktailKey")
 private val mediaPlayerKey = booleanPreferencesKey("mediaPlayerKey")
 private val gson = Gson()
 
+//declaracion inicial de glance widget
 class DrinkWidgetReceiver: GlanceAppWidgetReceiver() {
     override val glanceAppWidget: GlanceAppWidget = DrinkWidget()
 }
 
+
+// el widget
 class DrinkWidget : GlanceAppWidget() {
+
     override val sizeMode: SizeMode = SizeMode.Exact
 
     @SuppressLint("RestrictedApi")
     override suspend fun provideGlance(context: Context, id: GlanceId) {
+
+        //agaro un cocktail random
         var currentCocktail: Cocktail = getRandomCocktail()
 
-
+        // el reproductor que se ejcuta cuando se toca el boton
         val mediaPlayer = MediaPlayer.create(context, R.raw.roll)
 
         provideContent {
 
+            //defino las variables globales y al cocktail lo guardo en un gson
             val preferences = currentState<Preferences>()
-
             var mediaPlayerPressed = preferences[mediaPlayerKey] ?: false
             val cocktailJson = preferences[cocktailKey]
             currentCocktail = if (cocktailJson != null) {

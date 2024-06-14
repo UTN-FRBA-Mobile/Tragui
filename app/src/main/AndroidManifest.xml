@@ -16,20 +16,29 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Tragui"
         tools:targetApi="31">
+
+
         <activity
-            android:name=".MainActivity"
+            android:name=".SplashActivity"
+
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Tragui">
+            android:theme="@style/Theme.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW" />
+        </activity>
 
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Tragui">
+
+            <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
@@ -39,6 +48,7 @@
                     android:pathPrefix="/detail"
                     android:scheme="http" />
             </intent-filter>
+
         </activity>
 
         <receiver android:name=".widgets.DrinkWidgetReceiver"

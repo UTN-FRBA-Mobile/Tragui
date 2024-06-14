@@ -1,5 +1,6 @@
 package com.vasco.tragui.ui.animations
 
+import android.media.MediaPlayer
 import android.os.Build.VERSION.SDK_INT
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -24,9 +25,9 @@ import coil.decode.ImageDecoderDecoder
 import coil.request.ImageRequest
 import coil.size.Size
 import com.vasco.tragui.R
+import kotlinx.coroutines.delay
 
 object Animations {
-
 
 // Davy Jones effect
     fun Modifier.animationButom() = composed {
@@ -77,4 +78,36 @@ object Animations {
             modifier = modifier.fillMaxWidth(),
         )
     }
+
+
+    // animacion de gif
+    @Composable
+    fun GifImageLogo(
+        modifier: Modifier = Modifier,
+    ) {
+        val context = LocalContext.current
+        val imageLoader = ImageLoader.Builder(context)
+            .components {
+                if (SDK_INT >= 28) {
+                    add(ImageDecoderDecoder.Factory())
+                } else {
+                    add(GifDecoder.Factory())
+                }
+            }
+            .build()
+
+        // Carga el GIF ajustado para no repetirse y con la velocidad modificada
+        Image(
+            painter = rememberAsyncImagePainter(
+                ImageRequest.Builder(context).data(data = R.drawable.tragui).apply {
+                    size(Size.ORIGINAL)
+                    crossfade(true)  // Puedes ajustar esto si deseas un efecto de desvanecimiento
+                }.build(),
+                imageLoader = imageLoader
+            ),
+            contentDescription = null,
+            modifier = modifier.fillMaxWidth(),
+        )
+    }
+
 }

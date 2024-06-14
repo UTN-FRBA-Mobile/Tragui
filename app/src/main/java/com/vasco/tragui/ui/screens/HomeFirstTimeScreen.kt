@@ -114,10 +114,6 @@ class HomeFirstTimeScreen: Screen {
                 .fillMaxSize()
                 .background(colorResource(id = R.color.primary_light))
                 .padding(bottom = 70.dp)) {
-                Animations.GifImage(
-                    Modifier
-                        .align(Alignment.Center)
-                        .height(300.dp))
             }
         } else {
             HomeFirstTime(tabNavigator = tabNavigator)

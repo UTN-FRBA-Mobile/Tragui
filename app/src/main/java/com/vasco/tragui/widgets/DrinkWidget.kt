@@ -53,7 +53,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 // variables globales
+var nextCocktail: Cocktail? = null
+var initialized = false
 private val cocktailKey = stringPreferencesKey("cocktailKey")
+private val nextCocktailKey = stringPreferencesKey("nextCocktailKey")
+
 private val mediaPlayerKey = booleanPreferencesKey("mediaPlayerKey")
 private val gson = Gson()
 
@@ -71,8 +75,13 @@ class DrinkWidget : GlanceAppWidget() {
     @SuppressLint("RestrictedApi")
     override suspend fun provideGlance(context: Context, id: GlanceId) {
 
-        //agaro un cocktail random
+
         var currentCocktail: Cocktail = getRandomCocktail()
+
+        if (!initialized) {
+            nextCocktail= getRandomCocktail()
+            initialized = true
+        }
 
         // el reproductor que se ejcuta cuando se toca el boton
         val mediaPlayer = MediaPlayer.create(context, R.raw.roll)
@@ -83,12 +92,20 @@ class DrinkWidget : GlanceAppWidget() {
             val preferences = currentState<Preferences>()
             var mediaPlayerPressed = preferences[mediaPlayerKey] ?: false
             val cocktailJson = preferences[cocktailKey]
+            val nextCocktailJson = preferences[nextCocktailKey]
+
+
             currentCocktail = if (cocktailJson != null) {
                 gson.fromJson(cocktailJson, Cocktail::class.java)
             } else {
                 currentCocktail
             }
 
+            nextCocktail = if (nextCocktailJson != null) {
+                gson.fromJson(nextCocktailJson, Cocktail::class.java)
+            } else {
+                nextCocktail
+            }
 
             GlanceTheme {
 
@@ -160,8 +177,8 @@ class DrinkWidget : GlanceAppWidget() {
                         Image(
                             modifier = GlanceModifier.clickable(
                                 onClick = actionRunCallback<RefreshAction>(),
-                            ).size(95.dp)
-                                .padding(end= 15.dp),
+                            ).size(65.dp)
+                                .padding(end= 20.dp),
                             provider = ImageProvider(R.drawable.shufle),
                             contentDescription = "roll"
                         )
@@ -223,19 +240,32 @@ class RefreshAction : ActionCallback {
         glanceId: GlanceId,
         parameters: ActionParameters
     ) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val newCocktail = getRandomCocktail()
-            updateAppWidgetState(context, glanceId) { prefs ->
-                prefs[cocktailKey] = gson.toJson(newCocktail) // ACTUALIZA AL SIGUIENTE TRAFO
-                prefs[mediaPlayerKey] = true  // SE REPRODUCE LA MUSICA
-            }
-
-            // Actualizar el widget
-            DrinkWidget().update(context, glanceId)
-        }
+        refreshWidgetContent(context, glanceId)
     }
-
 }
+
+suspend fun refreshWidgetContent(context: Context, glanceId: GlanceId) {
+
+
+    CoroutineScope(Dispatchers.IO).launch {
+
+        updateAppWidgetState(context, glanceId) { prefs ->
+            prefs[mediaPlayerKey] = true  // SE REPRODUCE LA MUSICA
+            prefs[cocktailKey] = gson.toJson(nextCocktail) // ACTUALIZA AL SIGUIENTE TRAFO
+
+        }
+
+        // Actualizar el widget
+        DrinkWidget().update(context, glanceId)
+        nextCocktail = getRandomCocktail()
+
+    }
+}
+
+
+
+
+
 
 
 

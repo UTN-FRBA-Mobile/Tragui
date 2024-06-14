@@ -35,6 +35,7 @@ import com.vasco.tragui.ui.tabs.DrinkCabinetTab
 import com.vasco.tragui.ui.tabs.HomeTab
 import com.vasco.tragui.ui.tabs.SearchTab
 import com.vasco.tragui.ui.theme.TraguiTheme
+import com.vasco.tragui.widgets.scheduleDailyWidgetUpdate
 import java.util.logging.Logger
 
 class MainActivity : ComponentActivity() {
@@ -45,6 +46,8 @@ class MainActivity : ComponentActivity() {
 
         logger.info("Main activity started")
         super.onCreate(savedInstanceState)
+
+        scheduleDailyWidgetUpdate(applicationContext)
         setContent {
             TraguiTheme {
                 Surface (modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {

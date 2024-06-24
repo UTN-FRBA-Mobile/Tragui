@@ -178,16 +178,21 @@ class DrinkCabinetScreen: Screen {
                                 .padding(start = 20.dp)
                                 .padding(bottom = 18.dp)
                         ) {
-                            var url = "https://www.thecocktaildb.com/images/ingredients/${bottle}-Medium.png"
-                            var tamanio = 65
-                            if(bottle== "Fernet Branca"){
-                                url = "https://pbs.twimg.com/media/GMtwlBTWUAEAdNz?format=png&name=small"
+
+                            if (bottle == "Fernet Branca") {
+                                Image(
+                                    painter = painterResource(id = R.drawable.fernet_branca), // Reemplaza con el ID del drawable
+                                    contentDescription = bottle,
+                                    modifier = Modifier.size(65.dp)
+                                )
+                            } else {
+                                AsyncImage(
+                                    model = "https://www.thecocktaildb.com/images/ingredients/${bottle}-Medium.png",
+                                    contentDescription = bottle,
+                                    modifier = Modifier.size(65.dp)
+                                )
                             }
-                            AsyncImage(
-                                model = url,
-                                contentDescription = bottle,
-                                modifier = Modifier.size(tamanio.dp)
-                            )
+
                             Text(
                                 text = bottle,
                                 fontFamily = pixelfyFontFamily,

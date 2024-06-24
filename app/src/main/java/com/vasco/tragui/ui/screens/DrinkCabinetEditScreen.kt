@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
@@ -243,8 +244,14 @@ class DrinkCabinetEditScreen: Screen {
                     ) {
                         bottles?.size?.let {
                             items(it) { bottleIndex ->
+                                val bottle = bottles[bottleIndex]
+                                val isSelected = selectedBottles.contains(bottle)
+
                                 Card(
-                                    border = BorderStroke(4.dp, Color.Black),
+                                    border = BorderStroke(
+                                        5.dp,
+                                        if (isSelected) colorResource(id = R.color.green) else Color.Black
+                                    ),
                                     shape = RectangleShape,
                                     colors = CardColors(
                                         containerColor = Color.White,
@@ -253,8 +260,17 @@ class DrinkCabinetEditScreen: Screen {
                                         disabledContainerColor = Color.Black,
                                     ),
                                     modifier = Modifier
-                                        .padding(bottom = if (bottleIndex == bottles.size - 1) 150.dp else 0.dp )
+                                        .padding(bottom = if (bottleIndex == bottles.size - 1) 150.dp else 0.dp)
                                         .height(230.dp)
+                                        .background(Color.White)
+                                        .clickable {
+                                            val updatedSelectedBottles = if (isSelected) {
+                                                selectedBottles.filter { it != bottle }
+                                            } else {
+                                                selectedBottles + bottle
+                                            }
+                                            selectedBottles = updatedSelectedBottles
+                                        }
                                         .shadowsPlus(
                                             type = ShadowsPlusType.SoftLayer,
                                             color = colorResource(id = R.color.black).copy(alpha = 0.25f),
@@ -263,54 +279,61 @@ class DrinkCabinetEditScreen: Screen {
                                             radius = 0.dp
                                         )
                                         .background(Color.White)
-                                ) {
-                                    Box (
-                                        modifier = Modifier.fillMaxSize()
-                                        .padding(vertical = 10.dp)) {
-                                        var url = "https://www.thecocktaildb.com/images/ingredients/${bottles!!.get(bottleIndex)}-Medium.png"
-                                        var name = bottles!!.get(bottleIndex)
-                                        if(bottles!!.get(bottleIndex) == "Fernet Branca"){
-                                            url = "https://pbs.twimg.com/media/GMtwlBTWUAEAdNz?format=png&name=small"
-                                        }
-                                        AsyncImage(
-                                            model = url,
-                                            contentDescription = name,
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                        )
-                                        Text(
-                                            text = name,
-                                            color = Color.Black,
-                                            fontFamily = pixelfyFontFamily,
-                                            fontSize = 18.sp,
-                                            textAlign = TextAlign.Center,
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .padding(horizontal = 1.dp)
-                                                .align(Alignment.BottomCenter)
-                                        )
-                                    }
-                                }
-                                IconButton(onClick = {
-                                    val currentBottle = bottles!![bottleIndex]
-                                    val updatedSelectedBottles =
-                                        if (selectedBottles.contains(currentBottle)) {
-                                            selectedBottles.filter { it != currentBottle }
-                                        } else {
-                                            selectedBottles + currentBottle
-                                        }
 
-                                    selectedBottles = updatedSelectedBottles
-
-                                    logger.info(selectedBottles.toString())
-                                }, modifier = Modifier
-                                    .offset(x = 73.dp, y = (-18).dp)
-//                            .background(Color.Black) TODO
                                 ) {
-                                    Image(
-                                        painter = painterResource(id = if (selectedBottles.contains(bottles!!.get(bottleIndex))) R.drawable.remove else R.drawable.add),
-                                        contentDescription = "add ${bottles!!.get(bottleIndex)}",
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .background(  if (isSelected) Color.Gray.copy(alpha = 0.0f) else Color.Gray.copy(alpha = 0.3f))
                                     )
+                                    {
+                                        if (!isSelected) {
+                                            Text(
+                                                text = "Add",
+                                                color = Color.Red.copy(alpha = 0.4f),
+                                                fontFamily = pixelfyFontFamily,
+                                                fontSize = 50.sp,
+                                                textAlign = TextAlign.Center,
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .padding(horizontal = 1.dp)
+                                                    .align(Alignment.TopCenter)
+                                            )
+                                        }
+                                        Box(
+                                            modifier = Modifier
+                                                .fillMaxSize()
+                                                .padding(vertical = 10.dp)
+                                        ) {
+
+                                            if (bottle == "Fernet Branca") {
+                                                Image(
+                                                    painter = painterResource(id = R.drawable.fernet_branca), // Reemplaza con el ID del drawable
+                                                    contentDescription = bottle,
+                                                    modifier =  Modifier.size(170.dp)
+                                                )
+                                            } else {
+                                                AsyncImage(
+                                                    model = "https://www.thecocktaildb.com/images/ingredients/${bottle}-Medium.png",
+                                                    contentDescription = bottle,
+                                                    modifier =  Modifier.fillMaxWidth()
+                                                )
+                                            }
+
+
+                                            Text(
+                                                text = bottle,
+                                                color = Color.Black,
+                                                fontFamily = pixelfyFontFamily,
+                                                fontSize = 18.sp,
+                                                textAlign = TextAlign.Center,
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .padding(horizontal = 1.dp)
+                                                    .align(Alignment.BottomCenter)
+                                            )
+                                        }
+                                    }
                                 }
                             }
                         }

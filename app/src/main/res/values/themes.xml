@@ -2,4 +2,18 @@
 <resources>
 
     <style name="Theme.Tragui" parent="android:Theme.Material.Light.NoActionBar" />
+
+
+    <style name="Theme.SplashScreen" parent = "android:Theme.Material.Light.NoActionBar.Fullscreen">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowDisablePreview">true</item>
+        <!-- Evitar mostrar un ícono en la SplashScreen -->
+        <item name="android:icon">@null</item>
+
+        <item  name="android:statusBarColor">@color/primary</item>
+        <item name="android:windowBackground">@drawable/splash_background</item>
+    </style>
+
 </resources>

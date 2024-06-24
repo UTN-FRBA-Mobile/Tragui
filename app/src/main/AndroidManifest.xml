@@ -4,6 +4,7 @@
 
     <!--  Allow internet use  -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
@@ -15,17 +16,66 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Tragui"
         tools:targetApi="31">
+
+
         <activity
-            android:name=".MainActivity"
+            android:name=".SplashActivity"
+
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Tragui">
+            android:theme="@style/Theme.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Tragui">
+
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <!-- Define your deep link URL -->
+                <data
+                    android:host="tragui.vasco.com"
+                    android:pathPrefix="/detail"
+                    android:scheme="http" />
+            </intent-filter>
+
+        </activity>
+
+        <receiver android:name=".widgets.DrinkWidgetReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info" />
+        </receiver>
+
+        <service
+            android:name=".firebase.MyFirebaseMessagingService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
+
+    <meta-data
+        android:name="com.google.firebase.messaging.default_notification_color"
+        android:resource="@color/primary_light" />
+
+    <meta-data
+        android:name="com.google.firebase.messaging.default_notification_icon"
+        android:resource="@drawable/esto_no_es_coca_papi" />
 
 </manifest>

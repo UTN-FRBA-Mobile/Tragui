@@ -202,7 +202,6 @@ class DrinkCabinetScreen: Screen {
                                     .fillMaxWidth(),
                             )
                         }
-
                         Box(
                             modifier = Modifier
                                 .align(Alignment.BottomCenter)
@@ -217,9 +216,8 @@ class DrinkCabinetScreen: Screen {
                                     radius = 0.dp,
                                 )
                                 .background(Color.Black)
-                        ) {}
-
-                }
+                        )
+                    }
             }
         }
 

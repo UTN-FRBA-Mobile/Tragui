@@ -248,7 +248,6 @@ suspend fun refreshWidgetContent(context: Context, glanceId: GlanceId) {
 
 
     CoroutineScope(Dispatchers.IO).launch {
-
         updateAppWidgetState(context, glanceId) { prefs ->
             prefs[mediaPlayerKey] = true  // SE REPRODUCE LA MUSICA
             prefs[cocktailKey] = gson.toJson(nextCocktail) // ACTUALIZA AL SIGUIENTE TRAFO

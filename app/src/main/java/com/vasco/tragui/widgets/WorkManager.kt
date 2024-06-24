@@ -41,8 +41,8 @@ fun scheduleDailyWidgetUpdate(context: Context) {
 
     // Establece la hora deseada, por ejemplo, las 9 de la mañana
     val desiredTime = Calendar.getInstance().apply {
-        set(Calendar.HOUR_OF_DAY, 13)
-        set(Calendar.MINUTE, 37)
+        set(Calendar.HOUR_OF_DAY, 9)
+        set(Calendar.MINUTE, 0)
         set(Calendar.SECOND, 0)
     }
 

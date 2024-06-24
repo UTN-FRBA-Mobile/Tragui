@@ -11,28 +11,28 @@ Step back in time and bring your home bar to life with Tragui! Whether you're a 
 
 <p align="center">
     <picture>
-	  <img width="200" src="https://github.com/UTN-FRBA-Mobile/Tragui/blob/main/app/src/main/res/drawable/screen0.png?raw=true">
+	  <img width="200" src="https://github.com/UTN-FRBA-Mobile/Tragui/blob/main/app/src/main/res/drawable/screenshots/Screen0.png?raw=true">
 	</picture>
 	<picture>
-	  <img width="200" src="https://github.com/UTN-FRBA-Mobile/Tragui/blob/main/app/src/main/res/drawable/screen1.png?raw=true">
+	  <img width="200" src="https://github.com/UTN-FRBA-Mobile/Tragui/blob/main/app/src/main/res/drawable/screenshots/Screen3.png?raw=true">
 	</picture>
 	<picture>
-	  <img width="200" src="https://github.com/UTN-FRBA-Mobile/Tragui/blob/main/app/src/main/res/drawable/screen2.png?raw=true">
+	  <img width="200" src="https://github.com/UTN-FRBA-Mobile/Tragui/blob/main/app/src/main/res/drawable/screenshots/Screen4.png?raw=true">
 	</picture>
 	<picture>
-	  <img width="200" src="https://github.com/UTN-FRBA-Mobile/Tragui/blob/main/app/src/main/res/drawable/screen3.png?raw=true">
+	  <img width="200" src="https://github.com/UTN-FRBA-Mobile/Tragui/blob/main/app/src/main/res/drawable/screenshots/Screen1.png?raw=true">
 	</picture>
 	<picture>
-	  <img width="200" src="https://github.com/UTN-FRBA-Mobile/Tragui/blob/main/app/src/main/res/drawable/screen4.png?raw=true">
+	  <img width="200" src="https://github.com/UTN-FRBA-Mobile/Tragui/blob/main/app/src/main/res/drawable/screenshots/Screen2.png?raw=true">
 	</picture>
 	<picture>
-	  <img width="200" src="https://github.com/UTN-FRBA-Mobile/Tragui/blob/main/app/src/main/res/drawable/screen5.png?raw=true">
+	  <img width="200" src="https://github.com/UTN-FRBA-Mobile/Tragui/blob/main/app/src/main/res/drawable/screenshots/Screen7.png?raw=true">
 	</picture>
 	<picture>
-	  <img width="200" src="https://github.com/UTN-FRBA-Mobile/Tragui/blob/main/app/src/main/res/drawable/screen6.png?raw=true">
+	  <img width="200" src="https://github.com/UTN-FRBA-Mobile/Tragui/blob/main/app/src/main/res/drawable/screenshots/Screen5.png?raw=true">
 	</picture>
 	<picture>
-	  <img width="200" src="https://github.com/UTN-FRBA-Mobile/Tragui/blob/main/app/src/main/res/drawable/screen7.png?raw=true">
+	  <img width="200" src="https://github.com/UTN-FRBA-Mobile/Tragui/blob/main/app/src/main/res/drawable/screenshots/Screen6.png?raw=true">
 	</picture>
 </p>
 

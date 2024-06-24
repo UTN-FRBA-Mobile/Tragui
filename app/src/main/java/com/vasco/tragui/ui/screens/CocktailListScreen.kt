@@ -103,7 +103,7 @@ class CocktailListScreen: Screen {
                 Animations.GifImage(
                     Modifier
                         .align(Alignment.Center)
-                        .height(300.dp))
+                        .height(100.dp))
             }
         else {
             Column(

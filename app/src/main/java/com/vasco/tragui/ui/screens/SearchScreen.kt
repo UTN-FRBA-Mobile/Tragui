@@ -248,7 +248,7 @@ class SearchScreen: Screen {
                             .align(Alignment.Center)
                             .padding(bottom = 70.dp)
                     ) {
-                        Animations.GifImage(Modifier.height(200.dp))
+                        Animations.GifImage(Modifier.height(100.dp))
                     }
                 else {
                     LazyColumn() {

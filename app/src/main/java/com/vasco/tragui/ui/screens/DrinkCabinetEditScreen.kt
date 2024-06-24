@@ -230,8 +230,8 @@ class DrinkCabinetEditScreen: Screen {
                     Box (modifier = Modifier
                         .fillMaxWidth()
                         .align(Alignment.Center)
-                        .padding(bottom = 70.dp)) {
-                        GifImage(Modifier.height(200.dp))
+                        .padding(bottom = 100.dp)) {
+                        GifImage(Modifier.height(100.dp))
                     }
                 else {
                     LazyVerticalGrid(

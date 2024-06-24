@@ -120,12 +120,14 @@ data class CocktailDetailScreen(val cocktail_id: String?): Screen {
             }
         )
 
-
         if (loading)
-            Box (modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 70.dp)) {
-                Animations.GifImage(Modifier.align(Alignment.Center))
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(color = colorResource(id = R.color.primary_light)),
+                contentAlignment = Alignment.Center // Esto asegura que el contenido dentro del Box esté centrado
+            ) {
+                Animations.GifImage(Modifier.height(100.dp))
             }
         else {
             Column(

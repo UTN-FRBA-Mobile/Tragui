@@ -292,12 +292,12 @@ class DrinkCabinetEditScreen: Screen {
                                                 text = "Add",
                                                 color = Color.Red.copy(alpha = 0.4f),
                                                 fontFamily = pixelfyFontFamily,
-                                                fontSize = 50.sp,
-                                                textAlign = TextAlign.Center,
+                                                fontSize = 20.sp,
+//                                                textAlign = TextAlign.Center,
                                                 modifier = Modifier
                                                     .fillMaxWidth()
-                                                    .padding(horizontal = 1.dp)
-                                                    .align(Alignment.TopCenter)
+                                                    .align(Alignment.TopStart)
+                                                    .padding(start = 5.dp, top = 5.dp)
                                             )
                                         }
                                         Box(

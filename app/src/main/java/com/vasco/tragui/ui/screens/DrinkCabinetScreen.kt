@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
@@ -107,14 +108,13 @@ class DrinkCabinetScreen: Screen {
                             .fillMaxSize()
                             .padding(top = 8.dp)
                             .padding(end = 16.dp, start = 16.dp),
-//                        contentAlignment = Alignment.TopEnd // Alínea el contenido a la izquierda
                     ){
                         IconButton(onClick = {
                             FirebaseMessaging.getInstance().subscribeToTopic("booze_reminder")
                             Toast.makeText(context, "Reminder added!", Toast.LENGTH_SHORT).show()
                         }, modifier = Modifier.align(Alignment.TopStart)){
                             Image(
-                                painter = painterResource(id = R.drawable.starting_wine),
+                                painter = painterResource(id = R.drawable.mail),
                                 contentDescription = "Notifications",
                                 Modifier
                                     .size(35.dp)

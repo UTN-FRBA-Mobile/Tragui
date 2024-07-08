@@ -276,11 +276,11 @@ data class CocktailDetailScreen(val cocktail_id: String?): Screen {
                             ) {
                                 Text(
                                     text = AnnotatedString.Builder().apply {
-                                        append("Recepie:")
+                                        append("Recipe:")
                                         addStyle(
                                             style = SpanStyle(textDecoration = TextDecoration.Underline),
                                             start = 0,
-                                            end = "Recepie:".length
+                                            end = "Recipe:".length
                                         )
                                     }.toAnnotatedString(),
                                     color = Color.Black,

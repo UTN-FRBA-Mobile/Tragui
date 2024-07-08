@@ -250,7 +250,7 @@ class DrinkCabinetEditScreen: Screen {
                                 Card(
                                     border = BorderStroke(
                                         5.dp,
-                                        if (isSelected) colorResource(id = R.color.green) else Color.Black
+                                        if (isSelected) colorResource(id = R.color.green) else Color.Gray
                                     ),
                                     shape = RectangleShape,
                                     colors = CardColors(
@@ -287,19 +287,19 @@ class DrinkCabinetEditScreen: Screen {
                                             .background(  if (isSelected) Color.Gray.copy(alpha = 0.0f) else Color.Gray.copy(alpha = 0.3f))
                                     )
                                     {
-                                        if (!isSelected) {
-                                            Text(
-                                                text = "Add",
-                                                color = Color.Red.copy(alpha = 0.4f),
-                                                fontFamily = pixelfyFontFamily,
-                                                fontSize = 20.sp,
-//                                                textAlign = TextAlign.Center,
-                                                modifier = Modifier
-                                                    .fillMaxWidth()
-                                                    .align(Alignment.TopStart)
-                                                    .padding(start = 5.dp, top = 5.dp)
-                                            )
-                                        }
+//                                        if (!isSelected) {
+//                                            Text(
+//                                                text = "Add",
+//                                                color = Color.Red.copy(alpha = 0.4f),
+//                                                fontFamily = pixelfyFontFamily,
+//                                                fontSize = 20.sp,
+////                                                textAlign = TextAlign.Center,
+//                                                modifier = Modifier
+//                                                    .fillMaxWidth()
+//                                                    .align(Alignment.TopStart)
+//                                                    .padding(start = 5.dp, top = 5.dp)
+//                                            )
+//                                        }
                                         Box(
                                             modifier = Modifier
                                                 .fillMaxSize()
